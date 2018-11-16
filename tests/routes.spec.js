@@ -111,6 +111,19 @@ describe('Database Tests', function() {
 
 describe('/get confirm', () => {
   //Save object with 'name' value of 'Mike"
+  it('it should return html', (done) => {
+    chai.request(server)
+      .get(`/success`)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res).to.be.html;
+        done();
+    });
+  });
+});
+
+describe('/get success', () => {
+  //Save object with 'name' value of 'Mike"
   it('it should return a email web form', (done) => {
     chai.request(server)
       .get(`/confirm`)
@@ -121,6 +134,7 @@ describe('/get confirm', () => {
     });
   });
 });
+
 
 describe('/post rate', () => {
   //Save object with 'name' value of 'Mike"
