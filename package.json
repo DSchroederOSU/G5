@@ -11,12 +11,14 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
     "mocha": "^5.2.0",
     "mongodb": "^3.1.9",
     "mongoose": "^5.3.12",
     "nodemailer": "^4.6.8",
     "path": "^0.12.7",
+    "sendmail": "^1.4.1",
     "supertest": "^3.3.0"
   },
   "devDependencies": {
