@@ -122,7 +122,7 @@ function checkForRequestMade(req, res, next) {
   User.find({hash: req.params.hash})
     .populate({ path: 'requests'})
     .exec()
-    .then((user)=>{ 
+    .then((user)=>{
       if(user.length>0){
         // if the user has already made a request, return it
         if(user[0].requests.length > 0){
@@ -147,7 +147,7 @@ function sendRepairEmail(user) {
       .exec()
       .then((newUser)=>{
         let mailOptions={
-           to :  newUser[0].email,
+           to :  'repairs@example.com',
            subject : 'Request Made',
            text : `A car repair request has been made. User: ${newUser[0].email} IP: ${newUser[0].ip} Request: ${newUser[0].requests[0]} `
         }
