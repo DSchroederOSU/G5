@@ -35,17 +35,19 @@ You're building a website that has a "Car Repair Appointment" feature:
 
 # Notes
 
-This application would have been much easier to accomplish in the Ruby on Rails framework. I am going to begin converting over to ruby on rails after this is finished. I wanted to use the frameworks I was most comfortable with first, then begin trying to adopt new ones.
+1. This application would have been much easier to accomplish in the Ruby on Rails framework. I am going to begin converting over to ruby on rails after this is finished. I wanted to use the frameworks I was most comfortable with first, then begin trying to adopt new ones.
 
-The node email package nodemailer was a pain. Mostly because I am using Gmail as the SMTP host and Google does not like direct access from "insecure apps." If there is a problem with the email sending process due to auth reasons, I apologize. Additionally, I know I hard-coded my email and password into this code. It is a mock email account set up solely for the purpose of this project.
+2. The node email package nodemailer was a pain. Mostly because I am using Gmail as the SMTP host and Google does not like direct access from "insecure apps." If there is a problem with the email sending process due to auth reasons, I apologize. Additionally, I know I hard-coded my email and password into this code. It is a mock email account set up solely for the purpose of this project.
 
-Lastly, I used docker and bash scripts to automate a lot of the start-up and rebuild processes.
+3. Next, I used docker and bash scripts to automate a lot of the start-up and rebuild processes.
 ```
 docker-compose up
 ```
 Will work the first time this app is spun up, but afterwards the "rebuild.sh" script should be used to unmount the mongodb volumes and start all containers fresh.
 
-In a perfect world, the email credentials, mongo credentials, and other sensitive information would be held in a super secret .env file vaulted up off shore somewhere, but this is a temporary solution.
+4. The rating feature does nothing. Yes, I could have added the rating to the user object to keep track of what they scored my application... but it would have been pointless to log so many "5's" ;)
+
+5. In a perfect world, the email credentials, mongo credentials, and other sensitive information would be held in a super secret .env file vaulted up off shore somewhere, but this is a temporary solution.
 
 Best,
 
