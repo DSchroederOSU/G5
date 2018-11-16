@@ -47,18 +47,18 @@ module.exports = function(app){
                   console.log("Something wrong when updating data!");
               }
               else{
-                let mailOptions={
-                   to : user.email,
-                   subject : 'Request Successful',
-                   text : `Thank you for making a repair reuqest with us! To access your request, go to: http://localhost:3000/info/${req.params.hash}`
-                }
-                emailService.smtpTransport.sendMail(mailOptions, function(error, response){
-                  if(error){
-                    res.end("error");
-                  }else{
-                    res.status(200).redirect('/confirm');
-                  }
-                });
+
+                sendRepairEmail(user)
+                .then(()=>{
+                  sendConfirmationEmail(user)
+                })
+                .then(()=>{
+                  res.status(200).redirect('/confirm');
+                })
+                .catch((err)=>{
+                  res.end(err);
+                })
+
               }
           });
         }
@@ -106,7 +106,7 @@ module.exports = function(app){
 }
 //validation middleware
 
-let validatephone = (res, req, next) => { 
+let validatephone = (res, req, next) => {
   var phoneno = /([0-9]{3})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
   if(req.body.phone.value.match(phoneno)) {
     return next;
@@ -122,22 +122,70 @@ function checkForRequestMade(req, res, next) {
   User.find({hash: req.params.hash})
     .populate({ path: 'requests'})
     .exec()
-    .then((user)=>{
-        if(user){
-          // if the user has already made a request, return it
-          if(user[0].requests.length > 0){
-            res.status(200).redirect(`/request/${user[0]._id}`)
-          } else {
-            next();
-          }
+    .then((user)=>{ 
+      if(user.length>0){
+        // if the user has already made a request, return it
+        if(user[0].requests.length > 0){
+          res.status(200).redirect(`/request/${user[0]._id}`)
         } else {
-          res.sendFile(path.join(__dirname, '/public', 'index.html'));
+          next();
         }
+      } else {
+        res.sendFile(path.join(__dirname, '/public', 'index.html'));
+      }
     })
     .catch((err)=>{
         console.log(err);
     });
 }
+
+function sendRepairEmail(user) {
+  return new Promise((resolve, reject) => {
+    // get user and request information
+    User.find({ _id: user._id})
+      .populate({ path: 'requests'})
+      .exec()
+      .then((newUser)=>{
+        let mailOptions={
+           to :  newUser[0].email,
+           subject : 'Request Made',
+           text : `A car repair request has been made. User: ${newUser[0].email} IP: ${newUser[0].ip} Request: ${newUser[0].requests[0]} `
+        }
+        emailService.smtpTransport.sendMail(mailOptions, function(error, response){
+          if(error){
+            console.log(err);
+            reject(err);
+          }else{
+            resolve()
+          }
+        });
+      })
+      .catch((err)=>{
+        console.log(err);
+        reject(err);
+      });
+  });// end return promise
+}
+
+function sendConfirmationEmail(user) {
+  return new Promise((resolve, reject) => {
+    let mailOptions={
+       to : user.email,
+       subject : 'Request Successful',
+       text : `Thank you for making a repair reuqest with us! To access your request, go to: http://localhost:3000/request/${user._id}`
+    }
+    emailService.smtpTransport.sendMail(mailOptions, function(error, response){
+      if(error){
+        reject(error);
+      }else{
+        resolve()
+
+      }
+    });
+  });
+
+}
+
 
 let createRequest = (req) => {
   let new_request = new Request();

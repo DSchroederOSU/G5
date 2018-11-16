@@ -8,9 +8,6 @@ const mongoose = require('mongoose');
 const User = require('../models/schema').User;
 const Request = require('../models/schema').Request;
 
-
-
-
 describe('Database Tests', function() {
   before(function (done) {
     const mongoHost = process.env.MONGO_HOST || 'localhost';

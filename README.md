@@ -10,6 +10,21 @@ This will spin up a MongoDB container and the Application container
 
 Navigate to http://localhost:3000 to begin.
 
+After entering an email address and hitting submit on the home screen, you should receive an email at the given address.
+This email will take you to the form to submit a repair.
+
+
+#For running tests
+First start up a testing Mongo container
+```
+npm run db
+```
+This will allow there to be users created as if someone was really traversing the application.
+
+Next run the mocha test suite. This runs through each page of the application.
+```
+npm run test
+```
 
 #Assignment
 You're building a website that has a "Car Repair Appointment" feature:
