@@ -1,0 +1,35 @@
+# Use root/example as user/password credentials
+version: '3.6'
+
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongodb-vol:/data/db
+      - ./db-init/mongo:/docker-entrypoint-initdb.d/
+    container_name: "mongodb"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=g5
+      - MONGO_INITDB_ROOT_PASSWORD=g5
+      - MONGO_INITDB_DATABASE=repairs
+    ports:
+      - 27017:27017
+  repairs:
+    build: .
+    restart: always
+    container_name: "g5repairs"
+    depends_on:
+      - "mongodb"
+    environment:
+      MONGO_HOST: mongodb
+      MONGO_DATABASE: repairs
+      MONGO_USER: user
+      MONGO_PASSWORD: password
+    ports:
+      - 3000:3000
+    command:  bash -c "./wait-for-it.sh mongodb:27017 -- node server.js"
+
+volumes:
+  mongodb-vol:
+    name: mongo-vol
