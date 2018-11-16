@@ -14,7 +14,7 @@ After entering an email address and hitting submit on the home screen, you shoul
 This email will take you to the form to submit a repair.
 
 
-#For running tests
+# For running tests
 First start up a testing Mongo container
 ```
 npm run db
@@ -26,7 +26,8 @@ Next run the mocha test suite. This runs through each page of the application.
 npm run test
 ```
 
-#Assignment
+# Assignment
+
 You're building a website that has a "Car Repair Appointment" feature:
 
 1. User requests an appointment, and provides their email address.  The website sends an activation email to their email account.
