@@ -48,4 +48,4 @@ Will work the first time this app is spun up, but afterwards the "rebuild.sh" sc
 In a perfect world, the email credentials, mongo credentials, and other sensitive information would be held in a super secret .env file vaulted up off shore somewhere, but this is a temporary solution.
 
 Best,
-- Daniel Schroeder
+\- Daniel Schroeder
