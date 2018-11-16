@@ -19,7 +19,7 @@ module.exports = function(app){
     })
   });
 
-  // send user to repair form from email link
+
   app.get('/info/:hash', checkForRequestMade, function(req,res){
     // hash param is used to cross reference user on time of created user
     res.sendFile(path.join(__dirname, '/public', 'info.html'));
@@ -28,7 +28,6 @@ module.exports = function(app){
 
   // form submit for request
   app.post('/info/:hash', checkForRequestMade, function(req,res){
-
     // create new request from form options
     let new_request = createRequest(req);
     new_request.save(function (err, repair) {
@@ -67,11 +66,11 @@ module.exports = function(app){
   });
 
   app.get('/confirm', function(req,res){
-    res.sendFile(path.join(__dirname, '/public', 'repairsuccess.html'));
+    res.status(200).sendFile(path.join(__dirname, '/public', 'repairsuccess.html'));
   });
 
-  app.post('/rate', function(req, res){ 
-    res.sendFile(path.join(__dirname, '/public', 'ratesuccess.html'));
+  app.post('/rate', function(req, res){
+    res.status(200).sendFile(path.join(__dirname, '/public', 'ratesuccess.html'));
   });
 
 
@@ -83,7 +82,6 @@ module.exports = function(app){
           if(user){
             // if the user has already made a request, return it
             if(user[0].requests.length > 0){
-              console.log(user[0].requests[0])
               res.render('repair', { repair: user[0].requests[0] })
             } else {
               next();
@@ -108,8 +106,7 @@ module.exports = function(app){
 }
 //validation middleware
 
-let validatephone = (res, req, next) => {
-  console.log(req.body)
+let validatephone = (res, req, next) => { 
   var phoneno = /([0-9]{3})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
   if(req.body.phone.value.match(phoneno)) {
     return next;
@@ -140,7 +137,6 @@ function checkForRequestMade(req, res, next) {
     .catch((err)=>{
         console.log(err);
     });
-
 }
 
 let createRequest = (req) => {
