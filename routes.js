@@ -70,8 +70,7 @@ module.exports = function(app){
     res.sendFile(path.join(__dirname, '/public', 'repairsuccess.html'));
   });
 
-  app.post('/rate', function(req, res){
-
+  app.post('/rate', function(req, res){ 
     res.sendFile(path.join(__dirname, '/public', 'ratesuccess.html'));
   });
 
@@ -102,6 +101,10 @@ module.exports = function(app){
     res.sendFile(path.join(__dirname, '/public', 'wait.html'));
   });
 
+  // Catch all
+   app.use('*', function (req, res){
+       res.status(404).redirect(`/`)
+   });
 }
 //validation middleware
 
